@@ -26,9 +26,9 @@ public class ApplicationManager {
 
     public void registerStudent() {
         System.out.println("Please add the required data!");
-        String name = Helper.getStringFromUser("Name: ");
-        String email = Helper.getStringFromUser("Email: ");
-        int year = Helper.getIntFromUser("Date: ");
+        String name = Helper.getStringFromUser("Name");
+        String email = Helper.getStringFromUser("Email");
+        int year = Helper.getIntFromUser("Year");
 
         studentService.register(name,email,year);
     }
