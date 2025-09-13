@@ -5,10 +5,10 @@ import org.hibernate.Transaction;
 import java.util.List;
 
 public class GenericRepository<T> {
-    private final Class<T> type;
+    private final Class<T> entityClass;
 
-    public GenericRepository(Class<T> type) {
-        this.type = type;
+    public GenericRepository(Class<T> entityClass) {
+        this.entityClass = entityClass;
     }
 
     public T create(T entity) {
@@ -22,7 +22,7 @@ public class GenericRepository<T> {
 
     public T read(Long id) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            return session.get(type, id);
+            return session.get(entityClass, id);
         }
     }
 
@@ -45,7 +45,7 @@ public class GenericRepository<T> {
 
     public List<T> findAll() {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            return session.createQuery("from " + type.getSimpleName(), type).list();
+            return session.createQuery("from " + entityClass.getSimpleName(), entityClass).list();
         }
     }
 }

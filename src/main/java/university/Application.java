@@ -64,15 +64,15 @@ public class Application {
                     break;
                 case 2:
                     System.out.println("Update Student selected");
-//                    applicationManager.updateStudent();
+                    applicationManager.updateStudent();
                     break;
                 case 3:
                     System.out.println("Delete Student selected");
-//                    applicationManager.deleteStudent();
+                    applicationManager.deleteStudent();
                     break;
                 case 4:
                     System.out.println("List Students selected");
-//                    applicationManager.listStudents();
+                    applicationManager.listStudents();
                     break;
                 case 0:
                     running = false;

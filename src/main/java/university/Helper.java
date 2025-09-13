@@ -16,6 +16,17 @@ public class Helper {
         return sc.nextLine();
     }
 
+    public static Long getLongFromUser(String message){
+        System.out.print(message + ": ");
+        while (!sc.hasNextLong()) {
+            System.out.print("Please enter a valid number. " + message + ": ");
+            sc.next();
+        }
+        long value = sc.nextLong();
+        sc.nextLong();
+        return value;
+    }
+
     public static int getIntFromUser(String message) {
         System.out.print(message + ": ");
         while (!sc.hasNextInt()) {

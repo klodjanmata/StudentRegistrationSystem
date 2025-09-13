@@ -33,18 +33,44 @@ public class ApplicationManager {
         studentService.register(name,email,year);
     }
 
-//    public void updateStudent() {
-//
-//        studentService.update();
-//    }
-//
-//    public void deleteStudent() {
-//        studentService.delete();
-//    }
-//
-//    public void listStudents() {
-//        studentService.list();
- //   }
+    public void updateStudent() {
+        listStudents();
+        Long id = Helper.getLongFromUser("Enter the ID of the student to update");
+        Student student = studentService.getStudentById(id);
+        if (student == null) {
+            System.out.println("Student not found!");
+            return;
+        }
+
+        String name = Helper.getStringFromUser("Enter new name");
+        String email = Helper.getStringFromUser("Enter new email");
+        int year = Helper.getIntFromUser("Enter new enrollment year");
+
+        if (!name.isEmpty()) student.setName(name);
+        if (!email.isEmpty()) student.setEmail(email);
+        student.setEnrollmentYear(year);
+
+        studentService.update(student);
+        System.out.println("Student updated successfully!");
+    }
+
+    public void deleteStudent() {
+        listStudents();
+        Long id = Helper.getLongFromUser("Enter the ID of the student to delete");
+        Student student = studentService.getStudentById(id);
+        if (student == null) {
+            System.out.println("Student not found!");
+            return;
+        }
+
+        studentService.delete(student);
+        System.out.println("Student deleted successfully!");
+    }
+
+    public void listStudents() {
+        System.out.println("Students in the system:");
+        studentService.list().forEach(System.out::println);
+    }
 
 //    public void addProfessor() {
 //        professorService.add();
