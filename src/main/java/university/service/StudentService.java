@@ -1,4 +1,4 @@
 package university.service;
 
-public class CoursesService {
+public class StudentService {
 }
