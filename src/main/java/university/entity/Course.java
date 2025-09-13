@@ -1,7 +1,16 @@
 package university.entity;
+
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import java.util.*;
 
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 @Entity
 @Table(name = "courses")
 public class Course {
@@ -18,5 +27,16 @@ public class Course {
     private Professor professor;
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
-    private List<Enrollment> enrollments = new ArrayList<>();
+    private List<Enrollment> enrollments;
+
+    @Override
+    public String toString() {
+        return "Course{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", credits=" + credits +
+                ", professor=" + professor +
+                ", enrollments=" + enrollments +
+                '}';
+    }
 }

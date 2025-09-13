@@ -1,6 +1,16 @@
 package university.entity;
+
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import java.util.*;
+
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 @Entity
 @Table(name = "professors")
 public class Professor {
@@ -12,9 +22,20 @@ public class Professor {
     @Column(name = "department")
     private String department;
 
-    @Column(unique = true, nullable = false,name = "email")
+    @Column(unique = true, nullable = false, name = "email")
     private String email;
 
     @OneToMany(mappedBy = "professor")
     private List<Course> courses;
+
+    @Override
+    public String toString() {
+        return "Professor{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", department='" + department + '\'' +
+                ", email='" + email + '\'' +
+                ", courses=" + courses +
+                '}';
+    }
 }

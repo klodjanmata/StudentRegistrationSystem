@@ -1,10 +1,15 @@
 package university.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.List;
-
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 public class Departament {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -13,4 +18,13 @@ public class Departament {
     private String name;
     @Column(name = "building")
     private String building;
+
+    @Override
+    public String toString() {
+        return "Departament{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", building='" + building + '\'' +
+                '}';
+    }
 }
