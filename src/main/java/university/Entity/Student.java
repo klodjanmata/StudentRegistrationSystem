@@ -1,4 +1,4 @@
-package university.entity;
+package university.Entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -12,30 +12,30 @@ import java.util.*;
 @Getter
 @Setter
 @Entity
-@Table(name = "courses")
-public class Course {
+@Table(name = "students")
+public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(name = "name")
     private String name;
-    @Column(name = "credits")
-    private int credits;
 
-    @ManyToOne
-    @JoinColumn(name = "professor_id", nullable = false)
-    private Professor professor;
+    @Column(unique = true, nullable = false, name = "email")
+    private String email;
 
-    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
+    @Column(name = "enrollment_year")
+    private int enrollmentYear;
+
+    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
     private List<Enrollment> enrollments;
 
     @Override
     public String toString() {
-        return "Course{" +
+        return "Student{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", credits=" + credits +
-                ", professor=" + professor +
+                ", email='" + email + '\'' +
+                ", enrollmentYear=" + enrollmentYear +
                 ", enrollments=" + enrollments +
                 '}';
     }

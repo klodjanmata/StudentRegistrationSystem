@@ -1,4 +1,4 @@
-package university.repository;
+package university.Repository;
 
 public class ProfessorRepository {
 }
