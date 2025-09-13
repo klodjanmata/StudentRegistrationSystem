@@ -7,13 +7,14 @@ public class Professor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    @Column(name = "name")
     private String name;
+    @Column(name = "department")
     private String department;
 
-    @Column(unique = true, nullable = false)
+    @Column(unique = true, nullable = false,name = "email")
     private String email;
 
     @OneToMany(mappedBy = "professor")
-    private List<Course> courses = new ArrayList<>();
+    private List<Course> courses;
 }
