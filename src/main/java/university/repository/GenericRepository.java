@@ -1,6 +1,5 @@
-package university.Repository;
-import university.Entity.Student;
-import university.Util.HibernateUtil;
+package university.repository;
+import university.util.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import java.util.List;

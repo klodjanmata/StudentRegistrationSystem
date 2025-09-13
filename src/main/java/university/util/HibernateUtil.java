@@ -1,9 +1,9 @@
-package university.Util;
+package university.util;
 
 import lombok.Getter;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
-import university.Entity.*;
+import university.entity.*;
 
 public class HibernateUtil {
     @Getter
@@ -21,7 +21,7 @@ public class HibernateUtil {
 //                    .setProperty("hibernate.show_sql", "true")
 //                    .setProperty("hibernate.hbm2ddl.auto", "update")
                     .addAnnotatedClass(Student.class)
-                    .addAnnotatedClass(Departament.class)
+                    .addAnnotatedClass(Department.class)
                     .addAnnotatedClass(Enrollment.class)
                     .addAnnotatedClass(Professor.class)
                     .addAnnotatedClass(Semester.class)

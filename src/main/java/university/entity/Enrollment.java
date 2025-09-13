@@ -1,4 +1,4 @@
-package university.Entity;
+package university.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
