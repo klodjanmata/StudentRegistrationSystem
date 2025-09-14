@@ -118,6 +118,7 @@ public class Application {
                     System.out.println("Create Course selected");
 //                    applicationManager.createCourse();
                     break;
+
                 case 2:
                     System.out.println("List Courses selected");
 //                   applicationManager.listCourses();
