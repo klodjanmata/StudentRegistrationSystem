@@ -35,7 +35,7 @@ public class Professor {
                 ", name='" + name + '\'' +
                 ", department='" + department + '\'' +
                 ", email='" + email + '\'' +
-                ", courses=" + courses +
                 '}';
     }
+
 }

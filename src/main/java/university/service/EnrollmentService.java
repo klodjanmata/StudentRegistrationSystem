@@ -7,6 +7,7 @@ import university.entity.Student;
 import university.repository.GenericRepository;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class EnrollmentService {
 
@@ -41,8 +42,8 @@ public class EnrollmentService {
         List<Enrollment> enrollments = enrollmentRepo.findAll();
         List<Student> students = enrollments.stream()
                 .filter(el -> el.getCourse().getId().equals(courseId))
-                .map(el -> el.getStudent())
-                .toList();
+                .map(Enrollment::getStudent)
+                .collect(Collectors.toList());
 
         return students;
     }
@@ -56,8 +57,8 @@ public class EnrollmentService {
         List<Enrollment> enrollments = enrollmentRepo.findAll();
         List<Course> courses = enrollments.stream()
                 .filter(el -> el.getStudent().getId().equals(studentId))
-                .map(el -> el.getCourse())
-                .toList();
+                .map(Enrollment::getCourse)
+                .collect(Collectors.toList());
         return courses;
     }
 

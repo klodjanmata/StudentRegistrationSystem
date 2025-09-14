@@ -6,6 +6,7 @@ import university.service.*;
 
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.List;
 
 public class ApplicationManager {
 
@@ -117,15 +118,33 @@ public class ApplicationManager {
         System.out.println("Choose the course id from the list below");
         listCourses();
         long courseId = Helper.getLongFromUser("Course ID");
-        enrollmentService.listStudentsInCourse(courseId);
+
+        List<Student> students = enrollmentService.listStudentsInCourse(courseId);
+
+        if (students.isEmpty()) {
+            System.out.println("No students enrolled in this course.");
+        } else {
+            System.out.println("Students enrolled in the course:");
+            students.forEach(System.out::println);
+        }
     }
+
 
     public void listCoursesForStudentSelected() {
         System.out.println("Choose the Student ID from the list below");
         listStudents();
         long studentId = Helper.getLongFromUser("Student ID");
-        enrollmentService.listCoursesForStudentSelected(studentId);
+
+        List<Course> courses = enrollmentService.listCoursesForStudentSelected(studentId);
+
+        if (courses.isEmpty()) {
+            System.out.println("This student is not enrolled in any courses.");
+        } else {
+            System.out.println("Courses for the student:");
+            courses.forEach(System.out::println);
+        }
     }
+
 
     public void createDepartment() {
         System.out.println("Please add the required data!");
