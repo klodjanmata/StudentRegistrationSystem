@@ -2,10 +2,7 @@ package university;
 
 import university.entity.*;
 import university.repository.GenericRepository;
-import university.service.CourseService;
-import university.service.EnrollmentService;
-import university.service.ProfessorService;
-import university.service.StudentService;
+import university.service.*;
 
 import java.time.LocalDate;
 import java.util.Date;
@@ -16,12 +13,14 @@ public class ApplicationManager {
     private ProfessorService professorService;
     private CourseService courseService;
     private EnrollmentService enrollmentService;
+    private DepartmentService departmentService;
 
     public ApplicationManager() {
         studentService = new StudentService();
         professorService = new ProfessorService();
         courseService = new CourseService();
         enrollmentService = new EnrollmentService();
+        departmentService = new DepartmentService();
     }
 
     public void registerStudent() {
@@ -120,5 +119,17 @@ public class ApplicationManager {
 
     public void listCoursesForStudentSelected() {
         enrollmentService.listCoursesForStudentSelected();
+    }
+
+    public void createDepartment() {
+        System.out.println("Please add the required data!");
+        String name = Helper.getStringFromUser("Name");
+        String building = Helper.getStringFromUser("Building");
+        departmentService.create(name,building);
+    }
+
+    public void listDepartments(){
+        System.out.println("courses in the system:");
+        departmentService.list().forEach(System.out::println);
     }
 }

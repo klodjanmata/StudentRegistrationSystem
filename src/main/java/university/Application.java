@@ -171,11 +171,11 @@ public class Application {
             switch (choice) {
                 case 1:
                     System.out.println("Create Department selected");
-//                    applicationManager.createDepartment();
+                    applicationManager.createDepartment();
                     break;
                 case 2:
                     System.out.println("List Departments selected");
-//                    applicationManager.listDepartments();
+                    applicationManager.listDepartments();
                     break;
                 case 0:
                     running = false;
