@@ -31,12 +31,9 @@ public class Course {
 
     @Override
     public String toString() {
-        return "Course{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", credits=" + credits +
-                ", professor=" + professor +
-                ", enrollments=" + enrollments +
-                '}';
+        return null;
+    }
+
+    public void setProfessorId(int professorId) {
     }
 }

@@ -10,6 +10,7 @@ public class Menu {
         System.out.println("2. Manage Professors");
         System.out.println("3. Manage Courses");
         System.out.println("4. Manage Enrollments");
+        System.out.println("5. Manage Departments");
         System.out.println("0. Exit");
     }
 
@@ -41,6 +42,12 @@ public class Menu {
         System.out.println("1. Enroll Student in Course");
         System.out.println("2. List Students in Course");
         System.out.println("3. List Courses for a Student");
+        System.out.println("0. Back to Main Menu");
+    }
+    public static void departmentMenu() {
+        System.out.println("\n--- Department Management ---");
+        System.out.println("1. Create Department");
+        System.out.println("2. List Departments");
         System.out.println("0. Back to Main Menu");
     }
 }

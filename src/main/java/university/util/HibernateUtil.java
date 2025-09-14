@@ -24,7 +24,6 @@ public class HibernateUtil {
                     .addAnnotatedClass(Department.class)
                     .addAnnotatedClass(Enrollment.class)
                     .addAnnotatedClass(Professor.class)
-                    .addAnnotatedClass(Semester.class)
                     .addAnnotatedClass(Course.class)
 
                     .buildSessionFactory();

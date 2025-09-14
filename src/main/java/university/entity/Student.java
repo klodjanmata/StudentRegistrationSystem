@@ -36,7 +36,6 @@ public class Student {
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 ", enrollmentYear=" + enrollmentYear +
-                ", enrollments=" + enrollments +
                 '}';
     }
 }

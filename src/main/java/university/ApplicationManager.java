@@ -86,13 +86,20 @@ public class ApplicationManager {
         professorService.list().forEach(System.out::println);
     }
 
-//    public void createCourse() {
-//        courseService.create();
-//    }
-//
-//    public void listCourses() {
-//        courseService.list();
-//    }
+    public void createCourse() {
+        System.out.println("Please add the required data!");
+        String name = Helper.getStringFromUser("Name");
+        int credits = Helper.getIntFromUser("Credits");
+        System.out.println("Choose a professor from the list");
+        listProfessors();
+        int professorId = Helper.getIntFromUser("ProfessorId");
+
+        courseService.create(name,credits,professorId);
+    }
+
+    public void listCourses() {
+        courseService.list();
+    }
 
 //    public void enrollStudent() {
 //        enrollmentService.enrollStudent();

@@ -42,6 +42,9 @@ public class Application {
                 System.out.println("You have chosen: Manage Enrollments");
                 manageEnrollments();
                 break;
+            case 5:
+                System.out.println("You have chosen: Manage Departments");
+                manageDepartments();
             case 0:
                 System.out.println("Exiting system...");
                 return true;
@@ -150,6 +153,29 @@ public class Application {
                 case 3:
                     System.out.println("List Courses for a Student selected");
 //                    applicationManager.listCoursesForStudentSelected();
+                    break;
+                case 0:
+                    running = false;
+                    break;
+                default:
+                    System.out.println("Invalid option! Try again.");
+                    break;
+            }
+        }
+    }
+    private static void manageDepartments() {
+        boolean running = true;
+        while (running) {
+            Menu.departmentMenu();
+            int choice = getChoice();
+            switch (choice) {
+                case 1:
+                    System.out.println("Create Department selected");
+//                    applicationManager.createDepartment();
+                    break;
+                case 2:
+                    System.out.println("List Departments selected");
+//                    applicationManager.listDepartments();
                     break;
                 case 0:
                     running = false;

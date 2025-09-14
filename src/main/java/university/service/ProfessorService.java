@@ -19,8 +19,4 @@ public class ProfessorService {
         return professorRepo.findAll();
     }
 
-    public Professor getProfessorById(Long id) {
-        return professorRepo.read(id);
-    }
-
 }

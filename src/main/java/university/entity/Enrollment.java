@@ -25,9 +25,6 @@ public class Enrollment {
     @JoinColumn(name = "course_id", nullable = false)
     private Course course;
 
-    @ManyToOne
-    @JoinColumn(name = "semester_id", nullable = false)
-    private Semester semester;
 
     private String grade;
 
@@ -37,7 +34,6 @@ public class Enrollment {
                 "id=" + id +
                 ", student=" + student +
                 ", course=" + course +
-                ", semester=" + semester +
                 ", grade='" + grade + '\'' +
                 '}';
     }
