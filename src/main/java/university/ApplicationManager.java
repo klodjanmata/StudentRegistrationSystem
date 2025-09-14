@@ -72,14 +72,20 @@ public class ApplicationManager {
         studentService.list().forEach(System.out::println);
     }
 
-//    public void addProfessor() {
-//        professorService.add();
-//    }
+    public void addProfessor() {
+        System.out.println("Please add the required data!");
+        String name = Helper.getStringFromUser("Name");
+        String email = Helper.getStringFromUser("Email");
+        String department = Helper.getStringFromUser("Department");
 
-//    public void listProfessors() {
-//        professorService.list();
-//    }
-//
+        professorService.register(name,email,department);
+    }
+
+    public void listProfessors() {
+        System.out.println("professors in the system:");
+        professorService.list().forEach(System.out::println);
+    }
+
 //    public void createCourse() {
 //        courseService.create();
 //    }
@@ -87,7 +93,7 @@ public class ApplicationManager {
 //    public void listCourses() {
 //        courseService.list();
 //    }
-//
+
 //    public void enrollStudent() {
 //        enrollmentService.enrollStudent();
 //    }

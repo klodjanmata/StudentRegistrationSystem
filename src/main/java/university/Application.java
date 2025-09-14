@@ -92,11 +92,11 @@ public class Application {
             switch (choice) {
                 case 1:
                     System.out.println("Add Professor selected");
-//                    applicationManager.addProfessor();
+                    applicationManager.addProfessor();
                     break;
                 case 2:
                     System.out.println("List Professors selected");
-//                    applicationManager.listProfessors();
+                   applicationManager.listProfessors();
                     break;
                 case 0:
                     running = false;
@@ -120,7 +120,7 @@ public class Application {
                     break;
                 case 2:
                     System.out.println("List Courses selected");
-//                    applicationManager.listCourses();
+//                   applicationManager.listCourses();
                     break;
                 case 0:
                     running = false;
