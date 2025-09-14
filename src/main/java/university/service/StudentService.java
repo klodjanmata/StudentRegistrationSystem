@@ -2,7 +2,6 @@ package university.service;
 import university.entity.Student;
 import university.repository.GenericRepository;
 
-import java.time.LocalDate;
 import java.util.List;
 
 public class StudentService {
