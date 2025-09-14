@@ -31,9 +31,12 @@ public class Course {
 
     @Override
     public String toString() {
-        return null;
+        return "Course{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", credits=" + credits +
+                ", professor=" + (professor != null ? professor.getName() : "None") +
+                '}';
     }
 
-    public void setProfessorId(int professorId) {
-    }
 }

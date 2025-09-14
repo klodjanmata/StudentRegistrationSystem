@@ -119,12 +119,12 @@ public class Application {
             switch (choice) {
                 case 1:
                     System.out.println("Create Course selected");
-//                    applicationManager.createCourse();
+                    applicationManager.createCourse();
                     break;
 
                 case 2:
                     System.out.println("List Courses selected");
-//                   applicationManager.listCourses();
+                    applicationManager.listCourses();
                     break;
                 case 0:
                     running = false;
@@ -144,15 +144,15 @@ public class Application {
             switch (choice) {
                 case 1:
                     System.out.println("Enroll Student in Course selected");
-//                    applicationManager.enrollStudent();
+                    applicationManager.enrollStudent();
                     break;
                 case 2:
                     System.out.println("List Students in Course selected");
-//                    applicationManager.listStudentsInCourseSelected();
+                    applicationManager.listStudentsInCourseSelected();
                     break;
                 case 3:
                     System.out.println("List Courses for a Student selected");
-//                    applicationManager.listCoursesForStudentSelected();
+                    applicationManager.listCoursesForStudentSelected();
                     break;
                 case 0:
                     running = false;

@@ -98,18 +98,27 @@ public class ApplicationManager {
     }
 
     public void listCourses() {
-        courseService.list();
+        System.out.println("courses in the system:");
+        courseService.list().forEach(System.out::println);
     }
 
-//    public void enrollStudent() {
-//        enrollmentService.enrollStudent();
-//    }
-//
-//    public void listStudentsInCourseSelected() {
-//        enrollmentService.listStudentsInCourse();
-//    }
-//
-//    public void listCoursesForStudentSelected() {
-//        enrollmentService.listCoursesForStudentSelected();
-//    }
+    public void enrollStudent() {
+        System.out.println("Please add the required data!");
+        System.out.println("Chose Students from the list: ");
+        listStudents();
+        long studentId = Helper.getLongFromUser("Student ID");
+        System.out.println("Chose Courses from the list: ");
+        listCourses();
+        long courseId = Helper.getLongFromUser("Course ID");
+        String grade = Helper.getStringFromUser("Grade");
+        enrollmentService.enrollStudent(studentId,courseId,grade);
+    }
+
+    public void listStudentsInCourseSelected() {
+        enrollmentService.listStudentsInCourse();
+    }
+
+    public void listCoursesForStudentSelected() {
+        enrollmentService.listCoursesForStudentSelected();
+    }
 }
