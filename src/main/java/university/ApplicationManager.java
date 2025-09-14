@@ -103,10 +103,10 @@ public class ApplicationManager {
 
     public void enrollStudent() {
         System.out.println("Please add the required data!");
-        System.out.println("Chose Students from the list: ");
+        System.out.println("Choose Students from the list: ");
         listStudents();
         long studentId = Helper.getLongFromUser("Student ID");
-        System.out.println("Chose Courses from the list: ");
+        System.out.println("Choose Courses from the list: ");
         listCourses();
         long courseId = Helper.getLongFromUser("Course ID");
         String grade = Helper.getStringFromUser("Grade");
@@ -114,11 +114,17 @@ public class ApplicationManager {
     }
 
     public void listStudentsInCourseSelected() {
-        enrollmentService.listStudentsInCourse();
+        System.out.println("Choose the course id from the list below");
+        listCourses();
+        long courseId = Helper.getLongFromUser("Course ID");
+        enrollmentService.listStudentsInCourse(courseId);
     }
 
     public void listCoursesForStudentSelected() {
-        enrollmentService.listCoursesForStudentSelected();
+        System.out.println("Choose the Student ID from the list below");
+        listStudents();
+        long studentId = Helper.getLongFromUser("Student ID");
+        enrollmentService.listCoursesForStudentSelected(studentId);
     }
 
     public void createDepartment() {
