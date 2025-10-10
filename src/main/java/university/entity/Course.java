@@ -36,5 +36,4 @@ public class Course {
                 id, name, credits, professor != null ? professor.getName() : "N/A"
         );
     }
-
 }

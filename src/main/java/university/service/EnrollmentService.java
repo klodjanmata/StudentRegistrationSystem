@@ -60,14 +60,24 @@ public class EnrollmentService {
                 .collect(Collectors.toList());
     }
 
-    /*Lists all courses a student is enrolled in*/
-    public List<Course> listCoursesForStudent(long studentId) {
+    /* Lists all enrollments for a given course (to access student + grade) */
+    public List<Enrollment> listEnrollmentsInCourse(long courseId) {
+        Course course = courseRepo.read(courseId);
+        if (course == null) throw new IllegalArgumentException("Course with ID " + courseId + " not found.");
+
+        return enrollmentRepo.findAll().stream()
+                .filter(e -> e.getCourse().getId().equals(courseId))
+                .collect(Collectors.toList());
+    }
+
+    /* Lists all enrollments for a given student (to access course + grade) */
+    public List<Enrollment> listEnrollmentsForStudent(long studentId) {
         Student student = studentRepo.read(studentId);
         if (student == null) throw new IllegalArgumentException("Student with ID " + studentId + " not found.");
 
         return enrollmentRepo.findAll().stream()
                 .filter(e -> e.getStudent().getId().equals(studentId))
-                .map(Enrollment::getCourse)
                 .collect(Collectors.toList());
     }
 }
+

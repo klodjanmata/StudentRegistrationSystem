@@ -11,9 +11,17 @@ public class Helper {
     private static final Scanner sc = new Scanner(System.in);
     public static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
+    // Regex for names: letters, spaces, hyphens, apostrophes
+    private static final String NAME_REGEX = "^[A-Za-z\\s\\-']+$";
+
     public static String getStringFromUser(String message) {
         System.out.print(message + ": ");
-        return sc.nextLine();
+        String input = sc.nextLine().trim();
+        while (!isValidName(input)) {
+            System.out.print("Invalid input. Please enter letters only. " + message + ": ");
+            input = sc.nextLine().trim();
+        }
+        return input;
     }
 
     public static Long getLongFromUser(String message) {
@@ -50,5 +58,10 @@ public class Helper {
                     .atZone(ZoneId.systemDefault())
                     .toLocalDate();
         }
+    }
+
+    // ------------------- Validation Methods -------------------
+    private static boolean isValidName(String input) {
+        return input.matches(NAME_REGEX);
     }
 }

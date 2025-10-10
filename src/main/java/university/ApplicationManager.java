@@ -224,25 +224,33 @@ public class ApplicationManager {
     public void listStudentsInCourseSelected() {
         try {
             System.out.println("Choose the course:");
-            List<Course> courses = courseService.list(); // or listCourses() returning List<Course>
+            List<Course> courses = courseService.list();
 
             if (courses.isEmpty()) {
                 System.out.println("No courses found. Please add courses first.");
-                return; // go back to the previous menu
+                return;
             }
 
-            // Display courses
-            courses.forEach(c -> System.out.printf("[%d] %s\n", c.getId(), c.getName()));
+            courses.forEach(c -> System.out.printf("[%d] %s%n", c.getId(), c.getName()));
 
-            // Ask for course ID only if courses exist
             long courseId = Helper.getLongFromUser("Course ID");
 
-            List<Student> students = enrollmentService.listStudentsInCourse(courseId);
-            if (students.isEmpty()) {
+            List<Enrollment> enrollments = enrollmentService.listEnrollmentsInCourse(courseId);
+            if (enrollments.isEmpty()) {
                 System.out.println("No students enrolled in this course.");
             } else {
-                System.out.println("Students enrolled:");
-                students.forEach(System.out::println);
+                System.out.println("\n--- Students Enrolled in the Course ---");
+                System.out.printf("%-5s %-20s %-25s %-10s %-25s%n",
+                        "ID", "Student", "Course", "Grade", "Professor");
+                System.out.println("--------------------------------------------------------------------------");
+                enrollments.forEach(e -> System.out.printf(
+                        "%-5d %-20s %-25s %-10s %-25s%n",
+                        e.getStudent().getId(),
+                        e.getStudent().getName(),
+                        e.getCourse().getName(),
+                        e.getGrade(),
+                        e.getCourse().getProfessor() != null ? e.getCourse().getProfessor().getName() : "N/A"
+                ));
             }
 
         } catch (Exception e) {
@@ -256,12 +264,23 @@ public class ApplicationManager {
             listStudents();
             long studentId = Helper.getLongFromUser("Student ID");
 
-            List<Course> courses = enrollmentService.listCoursesForStudent(studentId);
-            if (courses.isEmpty()) {
+            List<Enrollment> enrollments = enrollmentService.listEnrollmentsForStudent(studentId);
+            if (enrollments.isEmpty()) {
                 System.out.println("This student is not enrolled in any courses.");
             } else {
-                System.out.println("Courses for the student:");
-                courses.forEach(System.out::println);
+                System.out.println("\n--- Courses for the Student ---");
+                System.out.printf("%-5s %-25s %-8s %-10s %-20s %-25s%n",
+                        "ID", "Course", "Credits", "Grade", "Student", "Professor");
+                System.out.println("----------------------------------------------------------------------------------");
+                enrollments.forEach(e -> System.out.printf(
+                        "%-5d %-25s %-8d %-10s %-20s %-25s%n",
+                        e.getCourse().getId(),
+                        e.getCourse().getName(),
+                        e.getCourse().getCredits(),
+                        e.getGrade(),
+                        e.getStudent().getName(),
+                        e.getCourse().getProfessor() != null ? e.getCourse().getProfessor().getName() : "N/A"
+                ));
             }
 
         } catch (Exception e) {
