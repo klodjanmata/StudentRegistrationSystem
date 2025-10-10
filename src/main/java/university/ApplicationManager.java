@@ -147,21 +147,36 @@ public class ApplicationManager {
     public void createCourse() {
         try {
             System.out.println("Please add the required data!");
+
+            // Get course name and credits
             String name = Helper.getStringFromUser("Course Name");
             int credits = Helper.getIntFromUser("Credits");
 
-            System.out.println("Choose a professor from the list:");
+            // Get list of professors
             List<Professor> professors = professorService.list();
-            if(!professors.isEmpty()) {
-                long professorId = Helper.getLongFromUser("Professor ID");
-                courseService.create(name, credits, professorId);
-                System.out.println("Course created successfully!");
-            }else{
-                System.out.println("⚠️  No students available. Please register a student first.");
+            if (professors.isEmpty()) {
+                System.out.println("⚠️  No professors available. Please add a professor first.");
+                return;
             }
 
+            // Display professors in a table so the user can select
+            System.out.println("\n--- Professors in the System ---");
+            System.out.printf("%-5s %-25s %-25s %-20s%n", "ID", "Name", "Email", "Department");
+            System.out.println("--------------------------------------------------------------------");
+            professors.forEach(p -> System.out.printf(
+                    "%-5d %-25s %-25s %-20s%n",
+                    p.getId(), p.getName(), p.getEmail(), p.getDepartment().getName()
+            ));
+
+            // Ask user to select professor
+            long professorId = Helper.getLongFromUser("Professor ID");
+
+            // Create course
+            courseService.create(name, credits, professorId);
+            System.out.println("✅ Course created successfully!");
+
         } catch (Exception e) {
-            System.err.println("Error creating course: " + e.getMessage());
+            System.err.println("❌ Error creating course: " + e.getMessage());
         }
     }
 
