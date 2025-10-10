@@ -26,16 +26,14 @@ public class Student {
     @Column(name = "enrollment_year")
     private int enrollmentYear;
 
-    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
-    private List<Enrollment> enrollments;
+    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Enrollment> enrollments = new ArrayList<>();
 
     @Override
     public String toString() {
-        return "Student{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", email='" + email + '\'' +
-                ", enrollmentYear=" + enrollmentYear +
-                '}';
+        return String.format(
+                "[%-3d] %-20s | %-25s | Year: %d",
+                id, name, email, enrollmentYear
+        );
     }
 }

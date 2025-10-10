@@ -2,64 +2,72 @@ package university.service;
 
 import university.entity.Course;
 import university.entity.Enrollment;
-import university.entity.Professor;
 import university.entity.Student;
-import university.repository.GenericRepository;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+import university.repository.GenericRepository;
+
 public class EnrollmentService {
 
-    private GenericRepository<Enrollment> enrollmentRepo = new GenericRepository<>(Enrollment.class);
-    private GenericRepository<Student> studentRepo = new GenericRepository<>(Student.class);
-    private GenericRepository<Course> courseRepo = new GenericRepository<>(Course.class);
+    private final GenericRepository<Enrollment> enrollmentRepo = new GenericRepository<>(Enrollment.class);
+    private final GenericRepository<Student> studentRepo = new GenericRepository<>(Student.class);
+    private final GenericRepository<Course> courseRepo = new GenericRepository<>(Course.class);
 
-    public Enrollment enrollStudent(long studentId, long courseId, String grade) {
-        Enrollment enrollment = new Enrollment();
+    /**
+     * Enrolls a student in a course with an optional grade.
+     * Prevents duplicate enrollments.
+     */
+    public Enrollment enrollStudent(long studentId, long courseId, String gradeStr) {
         Student student = studentRepo.read(studentId);
         Course course = courseRepo.read(courseId);
 
-        if (student == null) {
-            throw new IllegalArgumentException("Student with id " + studentId + " not found");
+        if (student == null) throw new IllegalArgumentException("Student with ID " + studentId + " not found.");
+        if (course == null) throw new IllegalArgumentException("Course with ID " + courseId + " not found.");
+
+        // Check for duplicate enrollment
+        boolean alreadyEnrolled = enrollmentRepo.findAll().stream()
+                .anyMatch(e -> e.getStudent().getId().equals(studentId) && e.getCourse().getId().equals(courseId));
+        if (alreadyEnrolled) {
+            throw new IllegalArgumentException("Student " + student.getName() + " is already enrolled in this course.");
         }
 
-        if (course == null) {
-            throw new IllegalArgumentException("Course with id " + courseId + " not found");
+        // Convert string to Grade enum
+        Enrollment.Grade grade;
+        try {
+            grade = Enrollment.Grade.valueOf(gradeStr.toUpperCase());
+        } catch (Exception e) {
+            grade = Enrollment.Grade.INCOMPLETE; // default if invalid
         }
+
+        Enrollment enrollment = new Enrollment();
         enrollment.setStudent(student);
         enrollment.setCourse(course);
         enrollment.setGrade(grade);
+
         return enrollmentRepo.create(enrollment);
     }
 
+    /*Lists all students in a given course*/
     public List<Student> listStudentsInCourse(long courseId) {
         Course course = courseRepo.read(courseId);
-        if (course == null) {
-            throw new IllegalArgumentException("Course with id " + courseId + " not found");
-        }
+        if (course == null) throw new IllegalArgumentException("Course with ID " + courseId + " not found.");
 
-        List<Enrollment> enrollments = enrollmentRepo.findAll();
-        List<Student> students = enrollments.stream()
-                .filter(el -> el.getCourse().getId().equals(courseId))
+        return enrollmentRepo.findAll().stream()
+                .filter(e -> e.getCourse().getId().equals(courseId))
                 .map(Enrollment::getStudent)
                 .collect(Collectors.toList());
-
-        return students;
     }
 
-    public List<Course> listCoursesForStudentSelected(long studentId) {
+    /*Lists all courses a student is enrolled in*/
+    public List<Course> listCoursesForStudent(long studentId) {
         Student student = studentRepo.read(studentId);
-        if(student == null){
-            throw new IllegalArgumentException("Student with id " + studentId + " not found");
-        }
+        if (student == null) throw new IllegalArgumentException("Student with ID " + studentId + " not found.");
 
-        List<Enrollment> enrollments = enrollmentRepo.findAll();
-        List<Course> courses = enrollments.stream()
-                .filter(el -> el.getStudent().getId().equals(studentId))
+        return enrollmentRepo.findAll().stream()
+                .filter(e -> e.getStudent().getId().equals(studentId))
                 .map(Enrollment::getCourse)
                 .collect(Collectors.toList());
-        return courses;
     }
-
 }

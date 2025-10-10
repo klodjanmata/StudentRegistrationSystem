@@ -26,17 +26,15 @@ public class Course {
     @JoinColumn(name = "professor_id", nullable = false)
     private Professor professor;
 
-    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
-    private List<Enrollment> enrollments;
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Enrollment> enrollments = new ArrayList<>();
 
     @Override
     public String toString() {
-        return "Course{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", credits=" + credits +
-                ", professor=" + (professor != null ? professor.getName() : "None") +
-                '}';
+        return String.format(
+                "[%-3d] %-30s | Credits: %-2d | Professor: %s",
+                id, name, credits, professor != null ? professor.getName() : "N/A"
+        );
     }
 
 }

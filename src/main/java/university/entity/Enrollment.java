@@ -11,8 +11,13 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "enrollments")
+@Table(
+        name = "enrollments",
+        uniqueConstraints = @UniqueConstraint(columnNames = {"student_id", "course_id"})
+)
+
 public class Enrollment {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -25,17 +30,25 @@ public class Enrollment {
     @JoinColumn(name = "course_id", nullable = false)
     private Course course;
 
+    @Column(name = "grade")
+    @Enumerated(EnumType.STRING)
+    private Grade grade;
 
-    private String grade;
+    public enum Grade {
+        A, B, C, D, F, INCOMPLETE
+    }
+
 
     @Override
     public String toString() {
-        return "Enrollment{" +
-                "id=" + id +
-                ", student=" + student +
-                ", course=" + course +
-                ", grade='" + grade + '\'' +
-                '}';
+        return String.format(
+                "[%-3d] Student: %-20s | Course: %-30s | Grade: %-10s",
+                id,
+                student != null ? student.getName() : "N/A",
+                course != null ? course.getName() : "N/A",
+                grade != null ? grade.toString() : "INCOMPLETE"
+        );
     }
+
 }
 

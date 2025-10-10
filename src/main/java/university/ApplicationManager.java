@@ -2,15 +2,17 @@ package university;
 
 import university.entity.*;
 import university.service.*;
+
+import java.util.Arrays;
 import java.util.List;
 
 public class ApplicationManager {
 
-    private StudentService studentService;
-    private ProfessorService professorService;
-    private CourseService courseService;
-    private EnrollmentService enrollmentService;
-    private DepartmentService departmentService;
+    private final StudentService studentService;
+    private final ProfessorService professorService;
+    private final CourseService courseService;
+    private final EnrollmentService enrollmentService;
+    private final DepartmentService departmentService;
 
     public ApplicationManager() {
         studentService = new StudentService();
@@ -20,137 +22,251 @@ public class ApplicationManager {
         departmentService = new DepartmentService();
     }
 
+    // ---------------------- STUDENTS ----------------------
     public void registerStudent() {
-        System.out.println("Please add the required data!");
-        String name = Helper.getStringFromUser("Name");
-        String email = Helper.getStringFromUser("Email");
-        int year = Helper.getIntFromUser("Year");
+        try {
+            System.out.println("Please add the required data!");
+            String name = Helper.getStringFromUser("Name");
+            String email = Helper.getStringFromUser("Email");
+            int year = Helper.getIntFromUser("Enrollment Year");
 
-        studentService.register(name,email,year);
+            studentService.register(name, email, year);
+            System.out.println("Student registered successfully!");
+
+        } catch (Exception e) {
+            System.err.println("Error registering student: " + e.getMessage());
+        }
     }
 
     public void updateStudent() {
-        listStudents();
-        Long id = Helper.getLongFromUser("Enter the ID of the student to update");
-        Student student = studentService.getStudentById(id);
-        if (student == null) {
-            System.out.println("Student not found!");
-            return;
+        try {
+            listStudents();
+            long id = Helper.getLongFromUser("Enter the ID of the student to update");
+            Student student = studentService.getStudentById(id);
+            if (student == null) {
+                System.out.println("Student not found!");
+                return;
+            }
+
+            String name = Helper.getStringFromUser("Enter new name (leave blank to keep current)");
+            String email = Helper.getStringFromUser("Enter new email (leave blank to keep current)");
+            int year = Helper.getIntFromUser("Enter new enrollment year");
+
+            if (!name.isEmpty()) student.setName(name);
+            if (!email.isEmpty()) student.setEmail(email);
+            student.setEnrollmentYear(year);
+
+            studentService.update(student);
+            System.out.println("Student updated successfully!");
+
+        } catch (Exception e) {
+            System.err.println("Error updating student: " + e.getMessage());
         }
-
-        String name = Helper.getStringFromUser("Enter new name");
-        String email = Helper.getStringFromUser("Enter new email");
-        int year = Helper.getIntFromUser("Enter new enrollment year");
-
-        if (!name.isEmpty()) student.setName(name);
-        if (!email.isEmpty()) student.setEmail(email);
-        student.setEnrollmentYear(year);
-
-        studentService.update(student);
-        System.out.println("Student updated successfully!");
     }
 
     public void deleteStudent() {
-        listStudents();
-        Long id = Helper.getLongFromUser("Enter the ID of the student to delete");
-        Student student = studentService.getStudentById(id);
-        if (student == null) {
-            System.out.println("Student not found!");
-            return;
-        }
+        try {
+            listStudents();
+            long id = Helper.getLongFromUser("Enter the ID of the student to delete");
+            Student student = studentService.getStudentById(id);
+            if (student == null) {
+                System.out.println("Student not found!");
+                return;
+            }
 
-        studentService.delete(student);
-        System.out.println("Student deleted successfully!");
+            studentService.delete(student);
+            System.out.println("Student deleted successfully!");
+
+        } catch (Exception e) {
+            System.err.println("Error deleting student: " + e.getMessage());
+        }
     }
 
     public void listStudents() {
-        System.out.println("Students in the system:");
-        studentService.list().forEach(System.out::println);
-    }
-
-    public void addProfessor() {
-        System.out.println("Please add the required data!");
-        String name = Helper.getStringFromUser("Name");
-        String email = Helper.getStringFromUser("Email");
-        String department = Helper.getStringFromUser("Department");
-
-        professorService.register(name,email,department);
-    }
-
-    public void listProfessors() {
-        System.out.println("professors in the system:");
-        professorService.list().forEach(System.out::println);
-    }
-
-    public void createCourse() {
-        System.out.println("Please add the required data!");
-        String name = Helper.getStringFromUser("Name");
-        int credits = Helper.getIntFromUser("Credits");
-        System.out.println("Choose a professor from the list");
-        listProfessors();
-        int professorId = Helper.getIntFromUser("ProfessorId");
-
-        courseService.create(name,credits,professorId);
-    }
-
-    public void listCourses() {
-        System.out.println("courses in the system:");
-        courseService.list().forEach(System.out::println);
-    }
-
-    public void enrollStudent() {
-        System.out.println("Please add the required data!");
-        System.out.println("Choose Students from the list: ");
-        listStudents();
-        long studentId = Helper.getLongFromUser("Student ID");
-        System.out.println("Choose Courses from the list: ");
-        listCourses();
-        long courseId = Helper.getLongFromUser("Course ID");
-        String grade = Helper.getStringFromUser("Grade");
-        enrollmentService.enrollStudent(studentId,courseId,grade);
-    }
-
-    public void listStudentsInCourseSelected() {
-        System.out.println("Choose the course id from the list below");
-        listCourses();
-        long courseId = Helper.getLongFromUser("Course ID");
-
-        List<Student> students = enrollmentService.listStudentsInCourse(courseId);
-
+        System.out.println("\n--- Students in the System ---");
+        System.out.printf("%-5s %-20s %-25s %-10s%n", "ID", "Name", "Email", "Year");
+        System.out.println("-------------------------------------------------------------");
+        List<Student> students = studentService.list();
         if (students.isEmpty()) {
-            System.out.println("No students enrolled in this course.");
+            System.out.println("No students found.");
         } else {
-            System.out.println("Students enrolled in the course:");
             students.forEach(System.out::println);
         }
     }
 
 
-    public void listCoursesForStudentSelected() {
-        System.out.println("Choose the Student ID from the list below");
-        listStudents();
-        long studentId = Helper.getLongFromUser("Student ID");
+    // ---------------------- PROFESSORS ----------------------
+    public void addProfessor() {
+        try {
+            System.out.println("Please add the required data!");
+            String name = Helper.getStringFromUser("Name");
+            String email = Helper.getStringFromUser("Email");
 
-        List<Course> courses = enrollmentService.listCoursesForStudentSelected(studentId);
+            // List available departments
+            System.out.println("Choose a department from the list:");
+            List<Department> departments = departmentService.list();
+            if (departments.isEmpty()) {
+                System.out.println("No departments available. Please create a department first.");
+                return;
+            }
+            departments.forEach(d -> System.out.println(d.getId() + ". " + d.getName()));
 
-        if (courses.isEmpty()) {
-            System.out.println("This student is not enrolled in any courses.");
-        } else {
-            System.out.println("Courses for the student:");
-            courses.forEach(System.out::println);
+            long departmentId = Helper.getLongFromUser("Department ID");
+            Department department = departments.stream()
+                    .filter(d -> d.getId().equals(departmentId))
+                    .findFirst()
+                    .orElseThrow(() -> new IllegalArgumentException("Invalid department ID"));
+
+            Professor professor = professorService.register(name, email, department);
+            System.out.println("Professor added successfully: " + professor.getName());
+
+        } catch (Exception e) {
+            System.out.println("Error adding professor: " + e.getMessage());
         }
     }
 
 
+    public void listProfessors() {
+        System.out.println("Professors in the system:");
+        List<Professor> professors = professorService.list();
+        if (professors.isEmpty()) {
+            System.out.println("No professors found.");
+        } else {
+            professors.forEach(System.out::println);
+        }
+    }
+
+    // ---------------------- COURSES ----------------------
+    public void createCourse() {
+        try {
+            System.out.println("Please add the required data!");
+            String name = Helper.getStringFromUser("Course Name");
+            int credits = Helper.getIntFromUser("Credits");
+
+            System.out.println("Choose a professor from the list:");
+            listProfessors();
+            long professorId = Helper.getLongFromUser("Professor ID");
+
+            courseService.create(name, credits, professorId);
+            System.out.println("Course created successfully!");
+
+        } catch (Exception e) {
+            System.err.println("Error creating course: " + e.getMessage());
+        }
+    }
+
+    public void listCourses() {
+        System.out.println("Courses in the system:");
+        List<Course> courses = courseService.list();
+        if (courses.isEmpty()) {
+            System.out.println("No courses found.");
+        } else {
+            courses.forEach(System.out::println);
+        }
+    }
+
+    // ---------------------- ENROLLMENTS ----------------------
+    public void enrollStudent() {
+        try {
+            System.out.println("Enroll a student in a course.");
+
+            // Check students first
+            System.out.println("Choose a student:");
+            List<Student> students = studentService.list();
+            if (students.isEmpty()) {
+                System.out.println("⚠️  No students available. Please register a student first.");
+                return;
+            }
+            students.forEach(System.out::println);
+            long studentId = Helper.getLongFromUser("Student ID");
+
+            // Check courses next
+            System.out.println("Choose a course:");
+            List<Course> courses = courseService.list();
+            if (courses.isEmpty()) {
+                System.out.println("⚠️  No courses available. Please create a course first.");
+                return;
+            }
+            courses.forEach(System.out::println);
+            long courseId = Helper.getLongFromUser("Course ID");
+
+            // Grade selection
+            String gradeInput = Helper.getStringFromUser("Grade (A/B/C/D/F/INCOMPLETE)").toUpperCase();
+            List<String> validGrades = java.util.Arrays.asList("A","B","C","D","F","INCOMPLETE");
+            if (!validGrades.contains(gradeInput)) {
+                System.out.println("Invalid grade, defaulting to INCOMPLETE");
+                gradeInput = "INCOMPLETE";
+            }
+
+            enrollmentService.enrollStudent(studentId, courseId, gradeInput);
+            System.out.println("✅ Student enrolled successfully!");
+
+        } catch (Exception e) {
+            System.err.println("❌ Error enrolling student: " + e.getMessage());
+        }
+    }
+
+
+    public void listStudentsInCourseSelected() {
+        try {
+            System.out.println("Choose the course:");
+            listCourses();
+            long courseId = Helper.getLongFromUser("Course ID");
+
+            List<Student> students = enrollmentService.listStudentsInCourse(courseId);
+            if (students.isEmpty()) {
+                System.out.println("No students enrolled in this course.");
+            } else {
+                System.out.println("Students enrolled:");
+                students.forEach(System.out::println);
+            }
+
+        } catch (Exception e) {
+            System.err.println("Error listing students in course: " + e.getMessage());
+        }
+    }
+
+    public void listCoursesForStudentSelected() {
+        try {
+            System.out.println("Choose a student:");
+            listStudents();
+            long studentId = Helper.getLongFromUser("Student ID");
+
+            List<Course> courses = enrollmentService.listCoursesForStudent(studentId);
+            if (courses.isEmpty()) {
+                System.out.println("This student is not enrolled in any courses.");
+            } else {
+                System.out.println("Courses for the student:");
+                courses.forEach(System.out::println);
+            }
+
+        } catch (Exception e) {
+            System.err.println("Error listing courses for student: " + e.getMessage());
+        }
+    }
+
+    // ---------------------- DEPARTMENTS ----------------------
     public void createDepartment() {
         System.out.println("Please add the required data!");
         String name = Helper.getStringFromUser("Name");
         String building = Helper.getStringFromUser("Building");
-        departmentService.create(name,building);
+
+        try {
+            Department department = departmentService.create(name, building); // return type Department
+            System.out.println("Department created successfully: " + department.getName());
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
     }
 
-    public void listDepartments(){
-        System.out.println("courses in the system:");
-        departmentService.list().forEach(System.out::println);
+
+    public void listDepartments() {
+        System.out.println("Departments in the system:");
+        List<Department> departments = departmentService.list();
+        if (departments.isEmpty()) {
+            System.out.println("No departments found.");
+        } else {
+            departments.forEach(System.out::println);
+        }
     }
 }

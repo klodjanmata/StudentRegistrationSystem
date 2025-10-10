@@ -1,8 +1,12 @@
 package university;
 
+import university.entity.Course;
+import university.entity.Student;
+import java.util.List;
+
 public class Application {
 
-    private static ApplicationManager applicationManager = new ApplicationManager();
+    private static final ApplicationManager applicationManager = new ApplicationManager();
 
     public static void main(String[] args) {
         while (true) {
@@ -45,6 +49,7 @@ public class Application {
             case 5:
                 System.out.println("You have chosen: Manage Departments");
                 manageDepartments();
+                break; // <-- FIXED: prevent fall-through
             case 0:
                 System.out.println("Exiting system...");
                 return true;
@@ -60,29 +65,33 @@ public class Application {
         while (running) {
             Menu.studentMenu();
             int choice = getChoice();
-            switch (choice) {
-                case 1:
-                    System.out.println("Register Student selected");
-                    applicationManager.registerStudent();
-                    break;
-                case 2:
-                    System.out.println("Update Student selected");
-                    applicationManager.updateStudent();
-                    break;
-                case 3:
-                    System.out.println("Delete Student selected");
-                    applicationManager.deleteStudent();
-                    break;
-                case 4:
-                    System.out.println("List Students selected");
-                    applicationManager.listStudents();
-                    break;
-                case 0:
-                    running = false;
-                    break;
-                default:
-                    System.out.println("Invalid option! Try again.");
-                    break;
+            try {
+                switch (choice) {
+                    case 1:
+                        System.out.println("Register Student selected");
+                        applicationManager.registerStudent();
+                        break;
+                    case 2:
+                        System.out.println("Update Student selected");
+                        applicationManager.updateStudent();
+                        break;
+                    case 3:
+                        System.out.println("Delete Student selected");
+                        applicationManager.deleteStudent();
+                        break;
+                    case 4:
+                        System.out.println("List Students selected");
+                        applicationManager.listStudents();
+                        break;
+                    case 0:
+                        running = false;
+                        break;
+                    default:
+                        System.out.println("Invalid option! Try again.");
+                        break;
+                }
+            } catch (Exception e) {
+                System.out.println("Error: " + e.getMessage());
             }
         }
     }
@@ -92,21 +101,25 @@ public class Application {
         while (running) {
             Menu.professorMenu();
             int choice = getChoice();
-            switch (choice) {
-                case 1:
-                    System.out.println("Add Professor selected");
-                    applicationManager.addProfessor();
-                    break;
-                case 2:
-                    System.out.println("List Professors selected");
-                   applicationManager.listProfessors();
-                    break;
-                case 0:
-                    running = false;
-                    break;
-                default:
-                    System.out.println("Invalid option! Try again.");
-                    break;
+            try {
+                switch (choice) {
+                    case 1:
+                        System.out.println("Add Professor selected");
+                        applicationManager.addProfessor();
+                        break;
+                    case 2:
+                        System.out.println("List Professors selected");
+                        applicationManager.listProfessors();
+                        break;
+                    case 0:
+                        running = false;
+                        break;
+                    default:
+                        System.out.println("Invalid option! Try again.");
+                        break;
+                }
+            } catch (Exception e) {
+                System.out.println("Error: " + e.getMessage());
             }
         }
     }
@@ -116,22 +129,25 @@ public class Application {
         while (running) {
             Menu.courseMenu();
             int choice = getChoice();
-            switch (choice) {
-                case 1:
-                    System.out.println("Create Course selected");
-                    applicationManager.createCourse();
-                    break;
-
-                case 2:
-                    System.out.println("List Courses selected");
-                    applicationManager.listCourses();
-                    break;
-                case 0:
-                    running = false;
-                    break;
-                default:
-                    System.out.println("Invalid option! Try again.");
-                    break;
+            try {
+                switch (choice) {
+                    case 1:
+                        System.out.println("Create Course selected");
+                        applicationManager.createCourse();
+                        break;
+                    case 2:
+                        System.out.println("List Courses selected");
+                        applicationManager.listCourses();
+                        break;
+                    case 0:
+                        running = false;
+                        break;
+                    default:
+                        System.out.println("Invalid option! Try again.");
+                        break;
+                }
+            } catch (Exception e) {
+                System.out.println("Error: " + e.getMessage());
             }
         }
     }
@@ -141,48 +157,57 @@ public class Application {
         while (running) {
             Menu.enrollmentMenu();
             int choice = getChoice();
-            switch (choice) {
-                case 1:
-                    System.out.println("Enroll Student in Course selected");
-                    applicationManager.enrollStudent();
-                    break;
-                case 2:
-                    System.out.println("List Students in Course selected");
-                    applicationManager.listStudentsInCourseSelected();
-                    break;
-                case 3:
-                    System.out.println("List Courses for a Student selected");
-                    applicationManager.listCoursesForStudentSelected();
-                    break;
-                case 0:
-                    running = false;
-                    break;
-                default:
-                    System.out.println("Invalid option! Try again.");
-                    break;
+            try {
+                switch (choice) {
+                    case 1:
+                        System.out.println("Enroll Student in Course selected");
+                        applicationManager.enrollStudent();
+                        break;
+                    case 2:
+                        System.out.println("List Students in Course selected");
+                        applicationManager.listStudentsInCourseSelected();
+                        break;
+                    case 3:
+                        System.out.println("List Courses for a Student selected");
+                        applicationManager.listCoursesForStudentSelected();
+                        break;
+                    case 0:
+                        running = false;
+                        break;
+                    default:
+                        System.out.println("Invalid option! Try again.");
+                        break;
+                }
+            } catch (Exception e) {
+                System.out.println("Error: " + e.getMessage());
             }
         }
     }
+
     private static void manageDepartments() {
         boolean running = true;
         while (running) {
             Menu.departmentMenu();
             int choice = getChoice();
-            switch (choice) {
-                case 1:
-                    System.out.println("Create Department selected");
-                    applicationManager.createDepartment();
-                    break;
-                case 2:
-                    System.out.println("List Departments selected");
-                    applicationManager.listDepartments();
-                    break;
-                case 0:
-                    running = false;
-                    break;
-                default:
-                    System.out.println("Invalid option! Try again.");
-                    break;
+            try {
+                switch (choice) {
+                    case 1:
+                        System.out.println("Create Department selected");
+                        applicationManager.createDepartment();
+                        break;
+                    case 2:
+                        System.out.println("List Departments selected");
+                        applicationManager.listDepartments();
+                        break;
+                    case 0:
+                        running = false;
+                        break;
+                    default:
+                        System.out.println("Invalid option! Try again.");
+                        break;
+                }
+            } catch (Exception e) {
+                System.out.println("Error: " + e.getMessage());
             }
         }
     }

@@ -19,23 +19,22 @@ public class Professor {
     private Long id;
     @Column(name = "name")
     private String name;
-    @Column(name = "department")
-    private String department;
+    @ManyToOne
+    @JoinColumn(name = "department_id", nullable = false)
+    private Department department;
 
     @Column(unique = true, nullable = false, name = "email")
     private String email;
 
     @OneToMany(mappedBy = "professor")
-    private List<Course> courses;
+    private List<Course> courses = new ArrayList<>();
 
     @Override
     public String toString() {
-        return "Professor{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", department='" + department + '\'' +
-                ", email='" + email + '\'' +
-                '}';
+        return String.format(
+                "[%-3d] %-20s | %-25s | Dept: %s",
+                id, name, email, department != null ? department.getName() : "N/A"
+        );
     }
 
 }
