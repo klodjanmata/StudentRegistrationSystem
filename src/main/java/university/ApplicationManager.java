@@ -127,14 +127,21 @@ public class ApplicationManager {
 
 
     public void listProfessors() {
-        System.out.println("Professors in the system:");
+        System.out.println("\n--- Professors in the System ---");
+        System.out.printf("%-5s %-25s %-25s %-20s%n", "ID", "Name", "Email", "Department");
+        System.out.println("--------------------------------------------------------------------");
+
         List<Professor> professors = professorService.list();
         if (professors.isEmpty()) {
             System.out.println("No professors found.");
         } else {
-            professors.forEach(System.out::println);
+            professors.forEach(p -> System.out.printf(
+                    "%-5d %-25s %-25s %-20s%n",
+                    p.getId(), p.getName(), p.getEmail(), p.getDepartment().getName()
+            ));
         }
     }
+
 
     // ---------------------- COURSES ----------------------
     public void createCourse() {
@@ -156,14 +163,21 @@ public class ApplicationManager {
     }
 
     public void listCourses() {
-        System.out.println("Courses in the system:");
+        System.out.println("\n--- Courses in the System ---");
+        System.out.printf("%-5s %-25s %-8s %-25s%n", "ID", "Name", "Credits", "Professor");
+        System.out.println("-----------------------------------------------------------------");
+
         List<Course> courses = courseService.list();
         if (courses.isEmpty()) {
             System.out.println("No courses found.");
         } else {
-            courses.forEach(System.out::println);
+            courses.forEach(c -> System.out.printf(
+                    "%-5d %-25s %-8d %-25s%n",
+                    c.getId(), c.getName(), c.getCredits(), c.getProfessor().getName()
+            ));
         }
     }
+
 
     // ---------------------- ENROLLMENTS ----------------------
     public void enrollStudent() {
@@ -210,7 +224,17 @@ public class ApplicationManager {
     public void listStudentsInCourseSelected() {
         try {
             System.out.println("Choose the course:");
-            listCourses();
+            List<Course> courses = courseService.list(); // or listCourses() returning List<Course>
+
+            if (courses.isEmpty()) {
+                System.out.println("No courses found. Please add courses first.");
+                return; // go back to the previous menu
+            }
+
+            // Display courses
+            courses.forEach(c -> System.out.printf("[%d] %s\n", c.getId(), c.getName()));
+
+            // Ask for course ID only if courses exist
             long courseId = Helper.getLongFromUser("Course ID");
 
             List<Student> students = enrollmentService.listStudentsInCourse(courseId);
@@ -222,7 +246,7 @@ public class ApplicationManager {
             }
 
         } catch (Exception e) {
-            System.err.println("Error listing students in course: " + e.getMessage());
+            System.err.println("❌ Error listing students in course: " + e.getMessage());
         }
     }
 
@@ -241,7 +265,7 @@ public class ApplicationManager {
             }
 
         } catch (Exception e) {
-            System.err.println("Error listing courses for student: " + e.getMessage());
+            System.err.println("❌ Error listing courses for student: " + e.getMessage());
         }
     }
 
@@ -255,18 +279,25 @@ public class ApplicationManager {
             Department department = departmentService.create(name, building); // return type Department
             System.out.println("Department created successfully: " + department.getName());
         } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
+            System.out.println("❌ Error: " + e.getMessage());
         }
     }
 
 
     public void listDepartments() {
-        System.out.println("Departments in the system:");
+        System.out.println("\n--- Departments in the System ---");
+        System.out.printf("%-5s %-25s %-20s%n", "ID", "Name", "Building");
+        System.out.println("-----------------------------------------------------");
+
         List<Department> departments = departmentService.list();
         if (departments.isEmpty()) {
             System.out.println("No departments found.");
         } else {
-            departments.forEach(System.out::println);
+            departments.forEach(d -> System.out.printf(
+                    "%-5d %-25s %-20s%n",
+                    d.getId(), d.getName(), d.getBuilding()
+            ));
         }
     }
+
 }
