@@ -27,7 +27,7 @@ public class ApplicationManager {
         try {
             System.out.println("Please add the required data!");
             String name = Helper.getStringFromUser("Name");
-            String email = Helper.getStringFromUser("Email");
+            String email = Helper.getEmailFromUser("Email");
             int year = Helper.getIntFromUser("Enrollment Year");
 
             studentService.register(name, email, year);
@@ -49,7 +49,7 @@ public class ApplicationManager {
             }
 
             String name = Helper.getStringFromUser("Enter new name (leave blank to keep current)");
-            String email = Helper.getStringFromUser("Enter new email (leave blank to keep current)");
+            String email = Helper.getEmailFromUser("Enter new email (leave blank to keep current)");
             int year = Helper.getIntFromUser("Enter new enrollment year");
 
             if (!name.isEmpty()) student.setName(name);
@@ -100,7 +100,7 @@ public class ApplicationManager {
         try {
             System.out.println("Please add the required data!");
             String name = Helper.getStringFromUser("Name");
-            String email = Helper.getStringFromUser("Email");
+            String email = Helper.getEmailFromUser("Email");
 
             // List available departments
             System.out.println("Choose a department from the list:");
