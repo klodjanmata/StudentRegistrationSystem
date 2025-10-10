@@ -133,7 +133,7 @@ public class ApplicationManager {
 
         List<Professor> professors = professorService.list();
         if (professors.isEmpty()) {
-            System.out.println("No professors found.");
+            System.out.println("No professors found. Please register a professor first.\"");
         } else {
             professors.forEach(p -> System.out.printf(
                     "%-5d %-25s %-25s %-20s%n",
@@ -151,11 +151,14 @@ public class ApplicationManager {
             int credits = Helper.getIntFromUser("Credits");
 
             System.out.println("Choose a professor from the list:");
-            listProfessors();
-            long professorId = Helper.getLongFromUser("Professor ID");
-
-            courseService.create(name, credits, professorId);
-            System.out.println("Course created successfully!");
+            List<Professor> professors = professorService.list();
+            if(!professors.isEmpty()) {
+                long professorId = Helper.getLongFromUser("Professor ID");
+                courseService.create(name, credits, professorId);
+                System.out.println("Course created successfully!");
+            }else{
+                System.out.println("⚠️  No students available. Please register a student first.");
+            }
 
         } catch (Exception e) {
             System.err.println("Error creating course: " + e.getMessage());
